@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variação da Chuva - Fazenda Carnaúba</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        .btn-container { margin: 10px 0; }
+        button {
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-positive { background-color: #4A90E2; color: white; }
+        .btn-negative { background-color: #E74C3C; color: white; }
+    </style>
+</head>
+<body>
+    <h2>Variação da Chuva Acumulada (2014-2023)</h2>
+    <p>Fazenda Carnaúba - Taperoá - PB</p>
+
+    <div class="btn-container">
+        <button class="btn-positive" onclick="filtrarAnos('positivo')">Anos que Acumularam Chuva</button>
+        <button class="btn-negative" onclick="filtrarAnos('negativo')">Anos que Choveu Menos</button>
+        <button onclick="filtrarAnos('todos')">Mostrar Todos</button>
+    </div>
+
+    <div id="chart" style="width: 100%; height: 500px;"></div>
+
+    <script>
+        var chart = echarts.init(document.getElementById('chart'));
+
+        // Dados originais
+        var anosOriginais = [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
+        var variacoesOriginais = [0, -17.9, -91.7, -83.5, 553.3, -266.9, 93.4, -202.8, 550.1, -562.0];
+
+        function filtrarAnos(tipo) {
+            var anosFiltrados = [];
+            var variacoesFiltradas = [];
+
+            for (var i = 0; i < anosOriginais.length; i++) {
+                if ((tipo === 'positivo' && variacoesOriginais[i] > 0) ||
+                    (tipo === 'negativo' && variacoesOriginais[i] < 0) ||
+                    (tipo === 'todos')) {
+                    anosFiltrados.push(anosOriginais[i]);
+                    variacoesFiltradas.push(variacoesOriginais[i]);
+                }
+            }
+
+            var option = {
+                title: {
+                    text: 'Variação da chuva acumulada por ano (2014 a 2023)',
+                    subtext: 'Fazenda Carnaúba - Taperoá - PB',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'shadow' },
+                    formatter: function(params) {
+                        return `${params[0].axisValue} <br> Variação: ${params[0].data} mm`;
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    data: anosFiltrados,
+                    name: 'Ano'
+                },
+                yAxis: {
+                    type: 'value',
+                    name: 'Variação (mm)',
+                    min: -600,
+                    max: 600
+                },
+                dataZoom: [
+                    { type: 'slider', show: true, start: 0, end: 100 },
+                    { type: 'inside' }
+                ],
+                legend: {
+                    data: ['Variação da chuva'],
+                    left: 'right'
+                },
+                toolbox: {
+                    feature: {
+                        dataZoom: { title: { zoom: 'Zoom', back: 'Reset' } },
+                        restore: { title: 'Restaurar' },
+                        saveAsImage: { title: 'Salvar imagem' }
+                    }
+                },
+                series: [{
+                    name: 'Variação da chuva',
+                    type: 'bar',
+                    data: variacoesFiltradas,
+                    itemStyle: {
+                        color: function(params) {
+                            return params.value >= 0 ? '#4A90E2' : '#E74C3C'; // Azul para aumento, vermelho para redução
+                        }
+                    }
+                }]
+            };
+
+            chart.setOption(option);
+        }
+
+        filtrarAnos('todos'); // Exibe todos ao carregar
+    </script>
+</body>
+</html>
