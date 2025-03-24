@@ -10,4 +10,4 @@ Este repositório contém os projetos desenvolvidos no laboratório de Visualiza
 
 ---
 
-👨‍💻 Desenvolvido por [Seu Nome](https://github.com/amandacls)  
+👨‍💻 Desenvolvido por [Amanda Carolina](https://github.com/amandacls)  
