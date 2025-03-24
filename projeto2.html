@@ -7,16 +7,26 @@
     <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
     <style>
         body { text-align: center; font-family: Arial, sans-serif; }
-        .btn-container { margin: 10px 0; }
+        
+        h2 { margin-bottom: 5px; }
+        p { margin-top: 0; color: gray; }
+
+        .btn-container { margin: 15px 0; }
+        
         button {
-            padding: 10px;
+            padding: 10px 15px;
             margin: 5px;
             border: none;
             cursor: pointer;
             font-size: 16px;
+            border-radius: 8px; /* Botões arredondados */
         }
+        
         .btn-positive { background-color: #4A90E2; color: white; }
         .btn-negative { background-color: #E74C3C; color: white; }
+        .btn-reset { background-color: #555; color: white; }
+
+        button:hover { opacity: 0.8; }
     </style>
 </head>
 <body>
@@ -26,7 +36,7 @@
     <div class="btn-container">
         <button class="btn-positive" onclick="filtrarAnos('positivo')">Anos que Acumularam Chuva</button>
         <button class="btn-negative" onclick="filtrarAnos('negativo')">Anos que Choveu Menos</button>
-        <button onclick="filtrarAnos('todos')">Mostrar Todos</button>
+        <button class="btn-reset" onclick="filtrarAnos('todos')">Mostrar Todos</button>
     </div>
 
     <div id="chart" style="width: 100%; height: 500px;"></div>
@@ -52,11 +62,6 @@
             }
 
             var option = {
-                title: {
-                    text: 'Variação da chuva acumulada por ano (2014 a 2023)',
-                    subtext: 'Fazenda Carnaúba - Taperoá - PB',
-                    left: 'center'
-                },
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: { type: 'shadow' },
@@ -79,17 +84,6 @@
                     { type: 'slider', show: true, start: 0, end: 100 },
                     { type: 'inside' }
                 ],
-                legend: {
-                    data: ['Variação da chuva'],
-                    left: 'right'
-                },
-                toolbox: {
-                    feature: {
-                        dataZoom: { title: { zoom: 'Zoom', back: 'Reset' } },
-                        restore: { title: 'Restaurar' },
-                        saveAsImage: { title: 'Salvar imagem' }
-                    }
-                },
                 series: [{
                     name: 'Variação da chuva',
                     type: 'bar',
