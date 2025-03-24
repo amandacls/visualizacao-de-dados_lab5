@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volume de Chuva - Fazenda Carnaúba</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+</head>
+<body>
+    <div id="chart" style="width: 100%; height: 500px;"></div>
+
+    <script>
+        var chart = echarts.init(document.getElementById('chart'));
+
+        var option = {
+            title: {
+                text: 'Volume de chuva acumulada por ano (2014 a 2023)',
+                subtext: 'Fazenda Carnaúba - Taperoá - PB',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { type: 'shadow' }
+            },
+            xAxis: {
+                type: 'category',
+                data: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023],
+                name: 'Ano'
+            },
+            yAxis: {
+                type: 'value',
+                name: 'Chuva acumulada (mm)',
+                min: 0
+            },
+            dataZoom: [
+                { type: 'slider', show: true, start: 0, end: 100 },
+                { type: 'inside' }
+            ],
+            series: [{
+                name: 'Chuva (mm)',
+                type: 'line',
+                data: [404.6, 386.7, 295.0, 211.5, 380.2, 450.3, 500.1, 480.2, 520.8, 495.4],
+                itemStyle: {
+                    color: '#4A90E2'
+                }
+            }]
+        };
+
+        chart.setOption(option);
+    </script>
+</body>
+</html>
